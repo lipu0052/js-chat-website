@@ -1,90 +1,341 @@
+/* Reset default margins and ensure full viewport coverage */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-image: url('./assets/valley.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   height: 100vh;
   width: 100vw;
-  margin: 0px;
+  overflow: hidden; /* Prevent scrollbars */
+  position: relative;
 }
 
+/* Subtle overlay to enhance readability */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay for contrast */
+  z-index: 1;
+}
+
+/* Main container with centered content */
 .background {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(75deg, rgb(20, 23, 33) 0%, rgb(20, 23, 33) 50%, rgba(20, 23, 33,0.8) 100%);
-  /* Vertical center */
-  display: table-cell;
-  vertical-align: middle;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: relative;
+  z-index: 2; /* Above overlay */
+  background: linear-gradient(
+  360deg,
+  rgba(20, 23, 33, 1) 5%,
+  rgba(20, 23, 33, 0.8) 10%,
+  rgba(20, 23, 33, 0.5) 15%,
+  rgba(20, 23, 33, 0) 20%
+);
+
+  
 }
 
+/* Starry dot pattern with infinite scrolling and orange dots */
+.background::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 200%; /* Double height for seamless looping */
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(239,83,26,0.5)"/></svg>') repeat;
+  background-size: 20px 20px;
+  animation: starrySky 30s linear infinite; /* Smooth scrolling */
+  opacity: 0.5; /* Subtle over valley */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Below form card but above body overlay */
+}
+
+@keyframes starrySky {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); } /* Move half the height for seamless loop */
+}
+
+/* Glassmorphism form card with scale animation */
 .form-card {
-  width: 50%;
-  max-width: 350px;
-  padding: 0% 25% 0% 25%;
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: fadeInScale 1s ease-out;
+  position: relative;
+  z-index: 2; /* Above dot pattern */
 }
 
-.form-title { 
-  font-size: 42px; 
-  font-family: 'Avenir'; 
-  font-weight: 800; 
-  letter-spacing: 0.5px; 
-  color: #e8e8e8; 
-  padding-bottom: 12px; 
+@keyframes fadeInScale {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
+/* Form title with soft glow animation */
+.form-title {
+  font-size: 2.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  color: #f0f0f0;
+  text-align: center;
+  padding-bottom: 1rem;
+  animation: softGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes softGlow {
+  0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+  100% { text-shadow: 0 0 12px rgba(255, 255, 255, 0.7); }
+}
+
+/* Form subtitle with smooth fade-in */
 .form-subtitle {
-  font-size: 18px;
-  font-family: 'Avenir';
-  letter-spacing: 0.5px;
-  color: #afafaf;
-  padding-bottom: 24px;
+  font-size: 1.1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #d0d0d0;
+  text-align: center;
+  padding-bottom: 1.5rem;
+  animation: fadeIn 1.2s ease-out;
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Auth input container */
 .auth {
   position: relative;
-  display: inline-block;
   width: 100%;
-  padding-bottom: 12px;
+  margin-bottom: 1rem;
 }
+
 .auth-label {
   position: absolute;
-  top: 8px;
-  left: 18px;
-  font-size: 11px;
-  color: rgb(175, 175, 175);
-  font-family: Avenir;
-  width: 100px;
+  top: 0.5rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  color: #d0d0d0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: all 0.3s ease;
 }
+
 .auth-input {
-  background-color: #3e404b;
-  color: white;
-  font-family: "Avenir";
-  outline: none;
-  border: none;
+  width: 100%;
+  padding: 1.5rem 1rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  padding: 24px 18px 12px 18px;
-  width: calc(100% - 18px - 18px);
-  margin-bottom: 12px;
+  outline: none;
+  transition: all 0.3s ease;
 }
+
+.auth-input:focus {
+  border-color: #2e7d32; /* Keep forest green for inputs to match valley theme */
+  box-shadow: 0 0 8px rgba(46, 125, 50, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Floating label animation */
+.auth-input:focus + .auth-label,
+.auth-input:not(:placeholder-shown) + .auth-label {
+  top: -0.5rem;
+  left: 0.75rem;
+  font-size: 0.65rem;
+  color: #ef531a;
+}
+
+/* Auth button with orange color and pulse animation */
 .auth-button {
   width: 100%;
-  height: 53px;
-  color: white;
-  background-color: #fa541c;
+  height: 3rem;
+  background: #ef531a; /* Orange color for enter button */
+  color: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
   border: none;
-  outline: none;
+  margin-top: 5px;
   border-radius: 8px;
-  font-family: "Avenir";
   cursor: pointer;
-  transition: all .44s ease;
-  -webkit-transition: all .44s ease;
-  -moz-transition: all .44s ease;
+  transition: transform 0.3s ease;
+  animation: organicPulse 2.5s infinite ease-in-out;
 }
-.auth-button:hover { filter: brightness(145%); }
 
+.auth-button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes organicPulse {
+  0% { box-shadow: 0 0 0 0 #ef531a; } /* Orange shadow */
+  50% { box-shadow: 0 0 0 12px rgba(239, 83, 26, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 83, 26, 0); }
+}
+
+/* Chat wrapper with new tech-inspired design */
 .chat-wrapper {
-  height: 80vh; 
-  width: 80%;
-  margin-left: 10%; 
-  color: white; 
-  background: rgb(43, 47, 60);
+  height: 90vh;
+  width: 95%;
+  max-width: 900px;
+  margin: 1rem auto;
+  background: linear-gradient(135deg, #1c2526 0%, #2e3b4e 100%); /* Techy gradient */
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: chatFadeIn 0.8s ease-out;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes chatFadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Chat message area */
+.chat-messages {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Individual message styles */
+.message {
+  max-width: 70%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  animation: messageSlideUp 0.5s ease-out;
+}
+
+.message.user {
+  background: #ef531a; /* Orange for user messages */
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot {
+  background: #4a5e7c; /* Cool blue-gray for bot messages */
+  color: #f0f0f0;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+@keyframes messageSlideUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Chat input area */
+.chat-input-area {
+  display: flex;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.chat-input:focus {
+  border-color: #ef531a;
+  box-shadow: 0 0 8px rgba(239, 83, 26, 0.5);
+}
+
+/* Send button */
+.chat-send-button {
+  padding: 0.75rem 1.5rem;
+  background: #ef531a; /* Orange to match auth button */
+  color: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chat-send-button:hover {
+  background: #ff6b3a; /* Lighter orange on hover */
+  transform: scale(1.05);
+}
+
+/* Scrollbar styling for chat messages */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #ef531a;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .background {
+    padding-left: 5%; /* Reduce left padding for smaller screens */
+  }
+
+  .form-card {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .chat-wrapper {
+    width: 95%;
+    height: 95vh;
+    margin: 0.5rem auto;
+  }
+
+  .form-title {
+    font-size: 2rem;
+  }
+
+  .form-subtitle {
+    font-size: 1rem;
+  }
+
+  .message {
+    max-width: 80%;
+    font-size: 0.9rem;
+  }
 }
